@@ -98,25 +98,19 @@ public class BreakPalindromeSolution
         if (palindrome.Length != 1)
         {
             var chars = palindrome.ToCharArray();
-            for (var i = 0; i < chars.Length; i++)
+            var charsLengthInHalf = chars.Length / 2;
+            for (var i = 0; i < charsLengthInHalf; i++)
             {
-                if (chars[i] == 'a' && i != chars.Length - 1)
+                if (chars[i] == 'a')
                 {
                     continue;
                 }
-                var potentialAnswerChars = palindrome.ToCharArray();
-                potentialAnswerChars[i] = 'a';
-                if (!IsPalindrome(new string(potentialAnswerChars)))
-                {
-                    return new string(potentialAnswerChars);
-                }
-
-                if (i == chars.Length - 1)
-                {
-                    potentialAnswerChars[i] = (char) (potentialAnswerChars[i] + 1);
-                    return new string(potentialAnswerChars);
-                }
+                chars[i] = 'a';
+                return new string(chars);
             }
+
+            chars[chars.Length - 1] = 'b';
+            return new string(chars);
         }
 
         return "";
@@ -129,13 +123,14 @@ public class BreakPalindromeSolution
             return false;
         }
 
+        var middle = words.Length / 2;
         if (words.Length % 2 == 0)
         {
-            return words.Substring(0, words.Length / 2) ==
-                   new string(words.Substring(words.Length / 2, words.Length / 2).Reverse().ToArray());
+            return words.Substring(0, middle) ==
+                   new string(words.Substring(middle, middle).Reverse().ToArray());
         }
 
-        return words.Substring(0, words.Length / 2) ==
-               new string(words.Substring(words.Length / 2 + 1, words.Length / 2).Reverse().ToArray());
+        return words.Substring(0, middle) ==
+               new string(words.Substring(middle + 1, middle).Reverse().ToArray());
     }
 }
